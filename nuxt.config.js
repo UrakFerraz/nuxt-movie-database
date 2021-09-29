@@ -34,6 +34,11 @@ export default {
     '@nuxtjs/eslint-module',
   ],
 
+  loading: {
+    color: 'red',
+    height: '5px'
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
   ],

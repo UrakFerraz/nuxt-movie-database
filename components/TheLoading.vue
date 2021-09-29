@@ -1,24 +1,21 @@
 <template>
-<div class="spinner-box">
-  <div class="three-quarter-spinner"></div>
-</div>
+  <div class="spinner-box">
+    <div class="three-quarter-spinner"></div>
+  </div>
 </template>
 
 <script>
-  export default {
-
-  }
+export default {}
 </script>
 
 <style scoped>
-
 .three-quarter-spinner {
   width: 50px;
   height: 50px;
   border: 3px solid #fb5b53;
   border-top: 3px solid transparent;
   border-radius: 50%;
-  animation: spin .5s linear 0s infinite;
+  animation: spin 0.5s linear 0s infinite;
 }
 
 .spinner-box {
@@ -34,9 +31,8 @@
   from {
     transform: rotate(0);
   }
-  to{
+  to {
     transform: rotate(359deg);
   }
 }
-
 </style>
