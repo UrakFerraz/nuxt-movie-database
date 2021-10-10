@@ -4,7 +4,7 @@
       <h1 :title="title">{{ title }}</h1>
       <div id="movie-grid-row" class="movie-grid-row">
         <div class="movie-grid-content">
-          <BaseCard
+          <LazyBaseCard
             v-for="movie in movies.results"
             :id="movie.id"
             :key="movie.id"
@@ -35,11 +35,7 @@
 </template>
 
 <script>
-import BaseCard from './BaseCard.vue'
 export default {
-  components: {
-    BaseCard,
-  },
   props: {
     movies: {
       type: Object,

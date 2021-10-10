@@ -1,6 +1,6 @@
 <template>
   <div v-if="windowWidth > 0" class="movie-card" :style="cardSize()">
-    <FavoriteBtn :movie-id="movie.id" />
+    <FavoriteBtn :movie-id="movie.id" :is-fav="isFav" />
     <div
       class="movie-img"
       @mouseover="viewOverview(true)"
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import FavoriteBtn from './FavoriteBtn.vue'
 export default {
   components: {
@@ -56,7 +57,11 @@ export default {
     return {
       windowWidth: 0,
       overview: false,
+      isFavorite: this.isfav,
     }
+  },
+  computed: {
+    ...mapGetters(['isFav']),
   },
   mounted() {
     this.windowWidth =

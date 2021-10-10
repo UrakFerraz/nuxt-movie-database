@@ -2,12 +2,12 @@
   <div class="home" keep-alive>
     <TheHero />
     <TheSearchBar @search-movie="searchMovie" />
-    <BaseGrid
+    <LazyBaseGrid
       v-if="Object.keys(moviesSearched).length != 0"
       :movies="moviesSearched"
       :title="'Busca'"
     />
-    <BaseGrid
+    <LazyBaseGrid
       v-for="(genre, index) in genres"
       :key="genre.id"
       :movies="moviesByGenre[index]"
@@ -21,10 +21,8 @@
 <script>
 import TheHero from '@/components/TheHero.vue'
 import TheSearchBar from '@/components/TheSearchBar.vue'
-import BaseGrid from '@/components/ui/BaseGrid.vue'
 export default {
-  components: { TheHero, BaseGrid, TheSearchBar },
-  provide: ['API_KEY', 'lastMovies'],
+  components: { TheHero, TheSearchBar },
   data() {
     return {
       genres: [
@@ -49,29 +47,19 @@ export default {
         { id: 37, name: 'Western' },
       ],
       API_KEY: 'a152faf46b825f190ee05ae333705f56',
-      lastMovies: null,
       moviesByGenre: [],
       moviesSearched: {},
     }
   },
   async fetch() {
-    await this.getLastMovies()
     for (const genre of this.genres) {
       await this.getMoviesByGenre(genre.id)
     }
   },
+  watch: {
+    $route: '$fetch',
+  },
   methods: {
-    async getLastMovies() {
-      try {
-        const apiData = await fetch(
-          `https://api.themoviedb.org/3/movie/now_playing?api_key=${this.API_KEY}&language=pt-BR&page=1`
-        )
-        const data = await apiData.json()
-        this.lastMovies = { ...data }
-      } catch (error) {
-        console.log('ERRO FETCH', error)
-      }
-    },
     async getMoviesByGenre(genre) {
       try {
         const apiData = await fetch(
@@ -79,9 +67,7 @@ export default {
         )
         const data = await apiData.json()
         this.moviesByGenre.push(data)
-      } catch (error) {
-        console.log('ERRO FETCH', error)
-      }
+      } catch (error) {}
     },
     async searchMovie(payload) {
       try {
@@ -90,9 +76,7 @@ export default {
         )
         const data = await apiData.json()
         this.moviesSearched = { ...data }
-      } catch (error) {
-        console.log('ERRO FETCH', error)
-      }
+      } catch (error) {}
     },
   },
 }

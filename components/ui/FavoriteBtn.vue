@@ -1,7 +1,8 @@
+import { mapActions } from 'vuex';
 <template>
-  <button class="fav-btn" @click.prevent="favMovie(movieId)">
+  <button class="fav-btn" @click.prevent="toggle({ value: movieId })">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95.4 90.7">
-      <g :class="fav ? 'fav-icon-check-active' : 'fav-icon-check'">
+      <g :class="checkmark">
         <polygon
           fill="#AD4444"
           points="47.7,4.5 61.1,31.7 91.1,36 69.4,57.2 74.5,87.1 47.7,73 20.9,87.1 26,57.2 4.3,36 34.3,31.7"
@@ -21,26 +22,39 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
-  provide: ['movieId', 'fav'],
   props: {
     movieId: {
       type: Number,
       required: false,
       default: null,
     },
+    isFav: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
-  emits: ['fav-movie'],
-  data() {
-    return {
-      fav: false,
-      id: null,
-    }
+  computed: {
+    ...mapState(['favs']),
+    checkmark() {
+      const isFav = this.favs.includes(this.movieId)
+      if (isFav) {
+        return 'fav-icon-check-active'
+      } else {
+        return 'fav-icon-check'
+      }
+    },
   },
   methods: {
-    favMovie(id) {
-      this.fav = !this.fav
-      this.id = id
+    ...mapActions(['toggle']),
+    toggleFav() {
+      if (this.isFav) {
+        return 'fav-icon-check-active'
+      } else {
+        return 'fav-icon-check'
+      }
     },
   },
 }
