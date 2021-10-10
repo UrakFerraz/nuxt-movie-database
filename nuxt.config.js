@@ -1,4 +1,5 @@
 export default {
+  mode: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'nuxt-movies-database',
@@ -100,6 +101,7 @@ export default {
     cssSourceMap: true,
   },
   router: {
+    base: '/nuxt-movie-database/',
     extendRoutes(routes, resolve) {
       routes.push({
         name: 'custom',
